@@ -28,6 +28,7 @@ cluster aonde ocorrera o processamento em paralelo.
 2. Carregar arquivos no HDFS  
 3. Gerar dicionario de palavras
 4. Criar Indice Reverso
+5. Recuperar arquivos gerados no HDFS 
 
 ### 1. Git Repository clone
 * 1.1. Conectar no cluster Hadoop
