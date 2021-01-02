@@ -24,47 +24,46 @@ cluster aonde ocorrera o processamento em paralelo.
 * HDP 2.6.5
   
 ## Steps
-1. Carregar arquivos no HDFS  
-2. Gerar dicionario de palavras
-3. Criar Indice Reverso
+1. Clonar projeto do Git
+2. Carregar arquivos no HDFS  
+3. Gerar dicionario de palavras
+4. Criar Indice Reverso
 
-### 1. Carregando os arquivos no HDFS
-1.1. Criar diretorio no maquina do cluster para armazenar os arquivos 
+### 1. Git Repository clone
+* 1.1. Conectar no cluster Hadoop
+```shell
+ssh -p 2222 maria_dev@localhost
+# password: maria_dev
+```
+* 1.2. Clonar o repositorio
+```shell
+git clone https://github.com/alexcarvalhodata/gutenbergReverseIndex.git
+```
+
+### 2. Carregando os arquivos no HDFS
+2.1. Criar diretorio no maquina do cluster para armazenar os arquivos 
 referentes ao projeto
 ```shell
 ssh -p 2222 maria_dev@localhost 'mkdir ~/project22'
 # password: maria_dev
 ```
-1.2. Copiar pasta com os datasets para o maquina do cluster 
+2.2. Copiar pasta com os datasets para o maquina do cluster 
 ```shell
 scp -P 2222 -r ~/temp/dataset maria_dev@localhost:~/project22
 # password: maria_dev
 ```
-1.4. Logar na maquina do cluster Hadoop
+2.4. Logar na maquina do cluster Hadoop
 ```shell
 ssh -p 2222 maria_dev@localhost
 # password: maria_dev
 ```
-1.5. Criar pastar no HDFS para armazenar o dataset  
+2.5. Criar pastar no HDFS para armazenar o dataset  
 ```shell
 hadoop fs -mkdir -p project22/output
 ```
-1.6. Carregar os arquivos no HDFS do cluster
+2.6. Carregar os arquivos no HDFS do cluster
 ```shell
 hadoop fs -copyFromLocal ~/project22/dataset project22/dataset
-```
-### Git Repository clone
-Para a execucao dos Step 2 e 3 e necessario copiar este 
-repositorio Git para o servidor do cluster que executara este
-processo.
-* Conectar no cluster Hadoop
-```shell
-ssh -p 2222 maria_dev@localhost
-# password: maria_dev
-```
-* Clonar o repositorio
-```shell
-git clone https://github.com/alexcarvalhodata/gutenbergReverseIndex.git
 ```
 ### 2. Gerando dicionario de palavras
 
