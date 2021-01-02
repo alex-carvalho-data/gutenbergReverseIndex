@@ -67,19 +67,21 @@ spark-submit dictionary_builder.py
 spark-submit reverse_index_builder.py
 ```
 ### 5. Recuperando arquivos gerados no HDFS para o File System
-5.1. Criando diretório de saída
+5.1. Recuperando dictionário para a pasta home do File System local
 ```shell
-mkdir ~/gutenbergReverseIndex/output
+hadoop fs -copyToLocal project22/output/words_dictionary/part*.csv ~/words_dictionary.txt
 ```
-5.2. Recuperando dictionário
+5.3. Recuperando índice reverso para a pasta home do File System local
 ```shell
-hadoop fs -copyToLocal project22/output/words_dictionary/part*.csv ~/gutenbergReverseIndex/output/words_dictionary.txt
-```
-5.3. Recuperando índice reverso
-```shell
-hadoop fs -copyToLocal project22/output/word_reverse_idx/part*.csv ~/gutenbergReverseIndex/output/word_reverse_idx.txt
+hadoop fs -copyToLocal project22/output/word_reverse_idx/part*.csv ~/word_reverse_idx.txt
 ```
 5.4. Arquivos disponibilizados em:
+```shell
+cd ~/
+```
+ps.: os arquivos de output já estão disponibilizados na pasta 
+gutenbergReverseIndex/output deste repositório, caso não queira executar o 
+processo.
 ```shell
 cd ~/gutenbergReverseIndex/output
 ```
