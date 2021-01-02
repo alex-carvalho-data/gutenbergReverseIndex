@@ -35,36 +35,50 @@ cluster aonde ocorrera o processamento em paralelo.
 ssh -p 2222 maria_dev@localhost
 # password: maria_dev
 ```
-* 1.2. Clonar o repositorio
+* 1.2. Clonar o repositorio  
+Para este guia, será usada a pasta home, mas pode ser clonado em qualquer pasta
+  de preferência.
 ```shell
 git clone https://github.com/alexcarvalhodata/gutenbergReverseIndex.git
 ```
 
 ### 2. Carregando os arquivos no HDFS
-2.1. Criar diretorio no maquina do cluster para armazenar os arquivos 
-referentes ao projeto
-```shell
-ssh -p 2222 maria_dev@localhost 'mkdir ~/project22'
-# password: maria_dev
-```
-2.2. Copiar pasta com os datasets para o maquina do cluster 
-```shell
-scp -P 2222 -r ~/temp/dataset maria_dev@localhost:~/project22
-# password: maria_dev
-```
-2.4. Logar na maquina do cluster Hadoop
-```shell
-ssh -p 2222 maria_dev@localhost
-# password: maria_dev
-```
-2.5. Criar pastar no HDFS para armazenar o dataset  
+2.1. Criar pastar no HDFS para armazenar o dataset  
 ```shell
 hadoop fs -mkdir -p project22/output
 ```
-2.6. Carregar os arquivos no HDFS do cluster
+2.2. Carregar os arquivos no HDFS do cluster
 ```shell
-hadoop fs -copyFromLocal ~/project22/dataset project22/dataset
+hadoop fs -copyFromLocal ~/gutenbergReverseIndex/dataset project22/dataset
 ```
-### 2. Gerando dicionario de palavras
-
-### 3. Criando Indice Reverso
+### 3. Gerando dicionario de palavras
+3.1. Ir para a pasta onde foi clonado o repositório do git
+```shell
+cd ~/gutenbergReverseIndex
+```
+3.2. Executar o job que cria o Dicionário
+```shell
+spark-submit dictionary_builder.py
+```
+### 4. Criando Indice Reverso
+4.1. Executar o job que cria o Indice
+```shell
+spark-submit reverse_index_builder.py
+```
+### 5. Recuperando arquivos gerados no HDFS para o File System
+5.1. Criando diretório de saída
+```shell
+mkdir ~/gutenbergReverseIndex/output
+```
+5.2. Recuperando dictionário
+```shell
+hadoop fs -copyToLocal project22/output/words_dictionary/part*.csv ~/gutenbergReverseIndex/output/words_dictionary.txt
+```
+5.3. Recuperando índice reverso
+```shell
+hadoop fs -copyToLocal project22/output/word_reverse_idx/part*.csv ~/gutenbergReverseIndex/output/word_reverse_idx.txt
+```
+5.4. Arquivos disponibilizados em:
+```shell
+cd ~/gutenbergReverseIndex/output
+```
